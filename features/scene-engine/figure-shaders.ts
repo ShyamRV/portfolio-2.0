@@ -48,14 +48,15 @@ float snoise(vec3 v){
 
 export const FIGURE_VERTEX = /* glsl */ `
 uniform float uTime;
-uniform float uMorph;        // 0 = humanoid, 1 = neural cloud
+uniform float uMix;          // 0 = current form, 1 = next form
+uniform float uActivity;     // morph turbulence boost during transitions
 uniform float uDisperse;     // 0 = assembled, 1 = scattered (intro)
 uniform vec3  uMouse;        // mouse in world space (z=0 plane)
 uniform float uMouseStrength;
 uniform float uPixelRatio;
 uniform float uSize;
 
-attribute vec3  aCloud;
+attribute vec3  aTo;
 attribute float aSeed;
 attribute float aSize;
 
@@ -67,12 +68,12 @@ ${SIMPLEX}
 void main() {
   vSeed = aSeed;
 
-  float m = smoothstep(0.0, 1.0, uMorph);
-  vec3 pos = mix(position, aCloud, m);
+  float m = smoothstep(0.0, 1.0, uMix);
+  vec3 pos = mix(position, aTo, m);
 
-  // Organic flow-noise displacement (more agitated in cloud form).
+  // Organic flow-noise displacement; spikes mid-transition for a "flow" feel.
   float t = uTime * 0.18;
-  float amp = mix(0.018, 0.16, m) + uDisperse * 0.6;
+  float amp = 0.03 + uActivity * 0.22 + uDisperse * 0.6;
   vec3 nIn = pos * 0.7 + vec3(aSeed * 10.0);
   vec3 flow = vec3(
     snoise(nIn + vec3(t, 0.0, 0.0)),
@@ -94,7 +95,7 @@ void main() {
   pos.xy += normalize(toMouse.xy + 0.0001) * push;
 
   float energy = length(flow);
-  vGlow = clamp(energy * 0.6 + push * 1.5 + m * 0.3, 0.0, 1.0);
+  vGlow = clamp(energy * 0.5 + push * 1.5 + uActivity * 0.5, 0.0, 1.0);
 
   vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
   gl_Position = projectionMatrix * mvPosition;

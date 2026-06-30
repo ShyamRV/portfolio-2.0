@@ -7,7 +7,7 @@ import { getProfile, getFeaturedProjects } from "@/lib/supabase/queries";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
 
-export default async function HomePage() {
+export default async function ClassicHomePage() {
   const [{ data: profile, isPlaceholder: profilePh }, featured] =
     await Promise.all([getProfile(), getFeaturedProjects()]);
 

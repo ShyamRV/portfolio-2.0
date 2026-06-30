@@ -8,6 +8,17 @@ import { ExperienceScene } from "@/features/scene-engine/experience-scene";
 import { BootLoader } from "./boot-loader";
 import { Hud, type HudSection } from "@/features/hud/hud";
 import { HeroOverlay } from "@/features/scenes/hero-overlay";
+import {
+  AboutSection,
+  JourneySection,
+  ResearchSection,
+  SkillsSection,
+  SpeakingSection,
+  ContactSection,
+} from "@/features/scenes/content-sections";
+import { ProjectsSection } from "@/features/scenes/projects-section";
+import { ConsoleSection } from "@/features/scenes/console-section";
+import { useActiveSection } from "@/features/scenes/use-active-section";
 
 interface ExperienceProps {
   name: string;
@@ -16,16 +27,32 @@ interface ExperienceProps {
 
 const SECTIONS: HudSection[] = [
   { id: "arrival", label: "ARRIVAL", index: "00" },
-  { id: "intro", label: "IDENTITY", index: "01" },
+  { id: "essence", label: "ESSENCE", index: "01" },
+  { id: "journey", label: "JOURNEY", index: "02" },
+  { id: "research", label: "RESEARCH", index: "03" },
+  { id: "systems", label: "SYSTEMS", index: "04" },
+  { id: "capabilities", label: "CAPABILITIES", index: "05" },
+  { id: "signal", label: "SIGNAL", index: "06" },
+  { id: "console", label: "CONSOLE", index: "07" },
+  { id: "contact", label: "CONTACT", index: "08" },
 ];
+
+const SECTION_IDS = SECTIONS.map((s) => s.id);
 
 export function Experience({ name, identities }: ExperienceProps) {
   const { caps, fallback, skipped } = useExperience();
   const [booted, setBooted] = useState(false);
+  const active = useActiveSection(SECTION_IDS);
 
   const useCanvas = caps.ready && !fallback && !skipped;
   const quality = qualityFor(caps.tier);
   const showLoader = caps.ready && !caps.reducedMotion && useCanvas && !booted;
+
+  const handleSelect = (id: string) => {
+    document
+      .querySelector(`[data-section="${id}"]`)
+      ?.scrollIntoView({ behavior: caps.reducedMotion ? "auto" : "smooth" });
+  };
 
   return (
     <div className="relative bg-void text-foreground">
@@ -47,21 +74,32 @@ export function Experience({ name, identities }: ExperienceProps) {
         </div>
       )}
 
-      <Hud sections={SECTIONS} activeId="arrival" status="digital twin online" />
+      <Hud
+        sections={SECTIONS}
+        activeId={active}
+        onSelect={handleSelect}
+        status="digital twin online"
+      />
 
       {/* Foreground content (scrollable). */}
       <main className="relative z-10">
         <HeroOverlay name={name} identities={identities} />
-
-        {/* Scroll runway so the figure morphs into the neural cloud. */}
-        <section className="flex min-h-[120vh] items-center justify-center px-6">
-          <p className="max-w-xl text-center font-display text-3xl font-medium leading-tight text-muted-foreground md:text-4xl">
-            An engineer who builds{" "}
-            <span className="text-foreground">autonomous systems</span> — and a
-            site that behaves like one.
-          </p>
-        </section>
+        <AboutSection />
+        <JourneySection />
+        <ResearchSection />
+        <ProjectsSection />
+        <SkillsSection />
+        <SpeakingSection />
+        <ConsoleSection />
+        <ContactSection />
       </main>
+
+      <footer className="relative z-10 border-t border-white/10 px-6 py-10 text-center md:px-10">
+        <p className="font-mono text-xs text-muted-foreground">
+          {name} · built as an autonomous system ·{" "}
+          <span className="text-synapse-1">{new Date().getFullYear()}</span>
+        </p>
+      </footer>
     </div>
   );
 }

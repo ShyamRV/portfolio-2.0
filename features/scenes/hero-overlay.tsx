@@ -20,7 +20,11 @@ export function HeroOverlay({ name, identities }: HeroOverlayProps) {
   }, [identities.length]);
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center px-6 text-center">
+    <section
+      id="arrival"
+      data-section="arrival"
+      className="relative flex min-h-screen flex-col items-center justify-center px-6 text-center"
+    >
       {/* Soft scrim improves text legibility over the bright figure core. */}
       <div
         aria-hidden
