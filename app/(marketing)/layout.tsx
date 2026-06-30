@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SiteNav } from "@/components/sections/site-nav";
+import { ChatWidget } from "@/components/ai-assistant/chat-widget";
 import { getProfile } from "@/lib/supabase/queries";
 
 export default async function MarketingLayout({
@@ -26,6 +27,7 @@ export default async function MarketingLayout({
           </Link>
         </div>
       </footer>
+      <ChatWidget />
     </div>
   );
 }

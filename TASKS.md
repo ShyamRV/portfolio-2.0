@@ -65,14 +65,17 @@
 ## MILESTONE 3 — AI Assistant
 **Done when:** every answer is cited or an explicit "I don't know" (verified vs ~20-question set), and it degrades gracefully when the free quota is hit.
 
-- [ ] `lib/ai/embed.ts` (paragraph chunking + free embedding model + incremental re-embed by content hash)
-- [ ] `lib/ai/retrieve.ts` (cosine top-k via hnsw + citation assembly)
-- [ ] `lib/ai/prompt.ts` (grounded-or-refuse, injection-safe context)
-- [ ] `/api/chat` with Gemini free-tier-aware rate limiting + `ai_query_logs` writes
-- [ ] `components/ai-assistant/chat-widget.tsx` with citation rendering
-- [ ] Adversarial prompt-injection test (crafted README chunk)
-- [ ] Load-test rate limiting vs real Gemini free-tier quota
-- [ ] Verify live Gemini free-tier limits at ai.google.dev before hardcoding limiter
+- [x] `lib/ai/embed.ts` (paragraph chunking + HF free MiniLM 384-dim + incremental re-embed by content hash)
+- [x] `lib/ai/retrieve.ts` (cosine top-k via hnsw `match_embeddings` RPC + relevance floor)
+- [x] `lib/ai/prompt.ts` (grounded-or-refuse, injection-safe context wrapping)
+- [x] `lib/ai/rate-limit.ts` + `lib/ai/gemini.ts` (Flash REST, 429→graceful)
+- [x] `/api/chat` rate-limited BEFORE model call + `ai_query_logs` writes + refuse-without-spending-quota
+- [x] `components/ai-assistant/{chat-widget,chat-bubble,citation-pill}.tsx` with visible citations
+- [x] Adversarial injection unit test + e2e spec (`tests/.../ai-injection.spec.ts`, canary documented)
+- [x] Rate-limiter burst unit test (deterministic); migration 0004 (content_hash + match_embeddings)
+- [x] Verified live Gemini free-tier limits (Flash ~15 RPM/1500 RPD) — limiter sized under ceiling
+- [ ] Run ~20-question test set + live injection e2e against provisioned env (BLOCKED on owner keys)
+- [ ] Live burst load-test vs real Gemini quota (BLOCKED on owner keys/deploy)
 
 ## MILESTONE 4 — Polish & Launch
 **Done when:** Lighthouse + a11y targets met (verified), and a full review confirms zero paid/trial services anywhere.

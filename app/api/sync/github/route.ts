@@ -3,6 +3,8 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { runSync } from "@/lib/supabase/sync";
 import { syncGitHub } from "@/lib/integrations/github";
 import { isCronAuthorized } from "@/lib/api-auth";
+import { createServiceClient } from "@/lib/supabase/client";
+import { reembedRecent } from "@/lib/ai/embed";
 import { revalidatePath } from "next/cache";
 
 export const dynamic = "force-dynamic";
@@ -10,6 +12,17 @@ export const maxDuration = 60;
 
 async function run() {
   const result = await runSync("github", syncGitHub);
+
+  // Incrementally embed only new/changed chunks (bounded, non-fatal). Skipped
+  // silently if embeddings aren't configured — the sync itself still succeeds.
+  try {
+    if (process.env.HUGGINGFACE_API_KEY) {
+      await reembedRecent(createServiceClient(), 40);
+    }
+  } catch {
+    // embedding is best-effort here; failures don't fail the sync
+  }
+
   // Reflect new content on the site without a manual deploy.
   revalidatePath("/work");
   revalidatePath("/");
