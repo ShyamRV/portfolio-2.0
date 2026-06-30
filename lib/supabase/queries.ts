@@ -103,6 +103,27 @@ export async function getContentItems(
   }
 }
 
+export async function getContentByType(
+  sourceTypes: string[],
+  limit = 50,
+): Promise<ContentItem[]> {
+  try {
+    const supabase = createPublicClient();
+    const { data, error } = await supabase
+      .from("content_items")
+      .select(
+        "id, source_type, title, description, url, tags, published_at, last_synced_at, sync_status",
+      )
+      .in("source_type", sourceTypes)
+      .order("published_at", { ascending: false })
+      .limit(limit);
+    if (error) throw error;
+    return (data as ContentItem[]) ?? [];
+  } catch {
+    return [];
+  }
+}
+
 export type SyncLogRow = {
   source_type: string;
   started_at: string;

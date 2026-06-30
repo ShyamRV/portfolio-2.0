@@ -1,9 +1,18 @@
 import { NextResponse } from "next/server";
+import { runSync } from "@/lib/supabase/sync";
+import { syncYouTube } from "@/lib/integrations/youtube";
+import { isCronAuthorized } from "@/lib/api-auth";
+import { revalidatePath } from "next/cache";
 
-/** YouTube sync (daily cron) — implemented in MILESTONE 2. */
-export async function GET() {
-  return NextResponse.json(
-    { error: "YouTube sync not implemented yet (Milestone 2)." },
-    { status: 501 },
-  );
+export const dynamic = "force-dynamic";
+export const maxDuration = 60;
+
+/** Vercel Cron (daily) entrypoint. */
+export async function GET(request: Request) {
+  if (!isCronAuthorized(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const result = await runSync("youtube", syncYouTube);
+  revalidatePath("/talks");
+  return NextResponse.json(result, { status: result.ok ? 200 : 503 });
 }

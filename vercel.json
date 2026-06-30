@@ -1,9 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "crons": [
-    {
-      "path": "/api/keepalive",
-      "schedule": "0 6 */3 * *"
-    }
+    { "path": "/api/keepalive", "schedule": "0 6 */3 * *" },
+    { "path": "/api/sync/github", "schedule": "0 */6 * * *" },
+    { "path": "/api/sync/rss", "schedule": "0 */12 * * *" },
+    { "path": "/api/sync/youtube", "schedule": "0 7 * * *" },
+    { "path": "/api/sync/external", "schedule": "0 8 * * 1" }
   ]
 }

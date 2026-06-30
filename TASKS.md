@@ -53,12 +53,14 @@
 ## MILESTONE 2 — Content Pipeline
 **Done when:** a commit/post appears on the site without a manual deploy, and Supabase never paused during testing.
 
-- [ ] `lib/integrations/github.ts` + `/api/sync/github` (webhook + 6h cron)
-- [ ] `lib/integrations/youtube.ts` + `/api/sync/youtube` (daily cron)
-- [ ] `lib/integrations/rss.ts` + `/api/sync/rss` (12h cron)
-- [ ] `lib/integrations/external-sources.ts` + `/api/sync/external` (weekly, per-source try/catch, Scholar manual-fallback)
-- [ ] Wire Vercel Cron (hourly-minimum on Hobby) + GitHub webhook → `/api/revalidate`
-- [ ] Surface `last_synced_at` / `sync_status` in footer or `/status`
+- [x] `lib/integrations/github.ts` + `/api/sync/github` (HMAC-verified webhook + 6h cron)
+- [x] `lib/integrations/youtube.ts` + `/api/sync/youtube` (daily cron, channel RSS — no quota)
+- [x] `lib/integrations/rss.ts` + `/api/sync/rss` (12h cron, per-feed try/catch)
+- [x] `lib/integrations/external-sources.ts` + `/api/sync/external` (weekly, per-source try/catch, Scholar manual-fallback in docs/SCHOLAR_FALLBACK.md)
+- [x] `lib/supabase/sync.ts` — every run writes a sync_logs row (success/partial/failed), upsert dedup by URL (migration 0003)
+- [x] Wire Vercel Cron (all ≥6h, hourly-minimum respected) + `/api/revalidate` (webhook calls it)
+- [x] Surface `sync_status` honestly at `/status`; sync_logs public-read (migration 0003); /writing,/talks,/research render content_items locally
+- [ ] Run real syncs against a live Supabase + confirm no auto-pause (BLOCKED on owner accounts)
 
 ## MILESTONE 3 — AI Assistant
 **Done when:** every answer is cited or an explicit "I don't know" (verified vs ~20-question set), and it degrades gracefully when the free quota is hit.

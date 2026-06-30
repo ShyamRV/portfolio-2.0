@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/client";
+import { isCronAuthorized } from "@/lib/api-auth";
 
 /**
  * Supabase anti-pause keepalive (Part 3).
@@ -16,21 +17,8 @@ import { createServiceClient } from "@/lib/supabase/client";
 export const dynamic = "force-dynamic";
 export const maxDuration = 30; // keep well under the Hobby function timeout
 
-function isAuthorized(request: Request): boolean {
-  const secret = process.env.CRON_SECRET;
-  // If no secret is configured yet (Milestone 0 local state), allow so the
-  // route is testable; in deployed envs CRON_SECRET should always be set.
-  if (!secret) return true;
-
-  const authHeader = request.headers.get("authorization");
-  if (authHeader === `Bearer ${secret}`) return true;
-
-  const url = new URL(request.url);
-  return url.searchParams.get("secret") === secret;
-}
-
 export async function GET(request: Request) {
-  if (!isAuthorized(request)) {
+  if (!isCronAuthorized(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
