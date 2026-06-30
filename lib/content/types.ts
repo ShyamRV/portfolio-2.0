@@ -9,10 +9,17 @@ export type ResumeRole = {
   highlights: string[];
 };
 
+export type ResumePublication = { title: string; note: string };
+export type ResumeTalk = { title: string; venue: string };
+export type ResumeSkillGroup = { label: string; skills: string[] };
+
 export type ResumeJson = {
   roles: ResumeRole[];
   education?: { school: string; credential: string; year?: string }[];
   skills?: string[];
+  skillGroups?: ResumeSkillGroup[];
+  publications?: ResumePublication[];
+  talks?: ResumeTalk[];
 };
 
 export type Profile = {

@@ -4,7 +4,7 @@
  * error the route can map to a graceful response.
  */
 
-const MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 
 export class GeminiQuotaError extends Error {}
 export class GeminiError extends Error {}

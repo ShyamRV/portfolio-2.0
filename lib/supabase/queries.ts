@@ -1,8 +1,5 @@
 import { createPublicClient } from "./client";
-import {
-  PLACEHOLDER_PROFILE,
-  PLACEHOLDER_PROJECTS,
-} from "@/lib/content/placeholder-data";
+import { REAL_PROFILE, REAL_PROJECTS } from "@/lib/content/resume-data";
 import type {
   ContentItem,
   Profile,
@@ -13,9 +10,9 @@ import type {
 /**
  * Read helpers for public data (anon client + RLS public-read, Part 4).
  *
- * Every helper falls back to CLEARLY-LABELED placeholder content when the DB
- * is unconfigured/empty, and reports `isPlaceholder` so the UI can be honest
- * about it (Part 1, rule 1). No fabricated content ever enters via fallback.
+ * When the DB is unconfigured/empty we fall back to the owner's REAL content
+ * (lib/content/resume-data.ts) — sourced from the resume, not invented — so
+ * `isPlaceholder` is false. Once Supabase is seeded, DB rows take over.
  */
 
 const PROJECT_COLUMNS =
@@ -30,10 +27,10 @@ export async function getProfile(): Promise<WithSource<Profile>> {
       .limit(1)
       .maybeSingle();
     if (error) throw error;
-    if (!data) return { data: PLACEHOLDER_PROFILE, isPlaceholder: true };
+    if (!data) return { data: REAL_PROFILE, isPlaceholder: false };
     return { data: data as Profile, isPlaceholder: false };
   } catch {
-    return { data: PLACEHOLDER_PROFILE, isPlaceholder: true };
+    return { data: REAL_PROFILE, isPlaceholder: false };
   }
 }
 
@@ -46,11 +43,11 @@ export async function getProjects(): Promise<WithSource<Project[]>> {
       .order("sort_order", { ascending: true });
     if (error) throw error;
     if (!data || data.length === 0) {
-      return { data: PLACEHOLDER_PROJECTS, isPlaceholder: true };
+      return { data: REAL_PROJECTS, isPlaceholder: false };
     }
     return { data: data as Project[], isPlaceholder: false };
   } catch {
-    return { data: PLACEHOLDER_PROJECTS, isPlaceholder: true };
+    return { data: REAL_PROJECTS, isPlaceholder: false };
   }
 }
 
@@ -73,10 +70,10 @@ export async function getProjectBySlug(
     if (error) throw error;
     if (data) return { data: data as Project, isPlaceholder: false };
   } catch {
-    // fall through to placeholder lookup
+    // fall through to local lookup
   }
-  const ph = PLACEHOLDER_PROJECTS.find((p) => p.slug === slug);
-  return ph ? { data: ph, isPlaceholder: true } : null;
+  const local = REAL_PROJECTS.find((p) => p.slug === slug);
+  return local ? { data: local, isPlaceholder: false } : null;
 }
 
 export async function getAllProjectSlugs(): Promise<string[]> {

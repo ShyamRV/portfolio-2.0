@@ -5,7 +5,7 @@ import { AuroraBackground } from "@/components/motion/aurora-background";
 import { JsonLd, personSchema } from "@/components/seo/json-ld";
 import { getProfile, getFeaturedProjects } from "@/lib/supabase/queries";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
 
 export default async function HomePage() {
   const [{ data: profile, isPlaceholder: profilePh }, featured] =

@@ -4,14 +4,17 @@
 > `docs/BUILD_PROMPT.md`. Hard rules: `.cursor/rules/project.mdc`.
 > **Zero-cost only. Never fabricate content. One milestone at a time.**
 
-## Open inputs (Part 2 — [NEEDS INPUT], blocking real content)
+## Open inputs (Part 2 — [NEEDS INPUT])
 
-- [ ] Full resume / CV (Markdown or JSON) — until then: placeholders only
-- [ ] Full name + preferred domain/handle
-- [ ] Primary audience ranking (recruiters / research / founders / engineers / organizers / OSS)
-- [ ] Color palette / visual reference (currently default: light+dark, neutral + blue accent)
+- [x] Full resume / CV — PROVIDED. Wired into lib/content/resume-data.ts + supabase/seed.sql
+- [x] Full name — Shyamji Pandey. Handles: GitHub ShyamRV, YouTube @NeuroManShyam, LinkedIn shyamji-pandey
+- [ ] Preferred domain (for NEXT_PUBLIC_SITE_URL / canonical + OG) — still needed
+- [ ] Primary audience ranking (recruiters / research / founders / engineers / organizers / OSS) — affects hero emphasis & section order
+- [ ] Color palette / visual reference (currently: light+dark, neutral + blue accent) — confirm or change
 - [ ] Repo public or private? (blocks GitHub Actions keepalive/CI minute strategy)
-- [ ] Manual-curation tolerance vs full automation
+- [ ] Project engineering tradeoffs "in your own voice" (1–2 per featured project) — `tradeoffs` left null, NOT invented
+- [ ] Confirm exact repo URLs for ResQ / NEO PRIME / NexusC (currently null) and that the assumed
+      github.com/ShyamRV/<slug> URLs for BankVoiceAI + lab agents are correct
 - [ ] Final ordered list of auto-sync sources to wire first (default: GitHub first)
 
 ## Owner account actions (cannot be done for you — all free, no card)
@@ -46,8 +49,8 @@
 - [x] hero / timeline / featured-work sections from `profile`/`projects` (with placeholder fallback)
 - [x] `/work`, `/work/[slug]`, `/resume`, `/contact`, `/status` routes
 - [x] reduced-motion-safe animation wrappers (`reveal.tsx`, `use-reduced-motion.ts`, `aurora-background.tsx`)
-- [x] Seed template written (`supabase/seed.sql`) — placeholder, awaiting REAL resume data (owner)
-- [ ] Seed `profile`/`projects` with REAL resume data (BLOCKED on owner content)
+- [x] Real resume content wired (`lib/content/resume-data.ts`) — hero/timeline/work/resume render Shyamji's actual data
+- [x] `supabase/seed.sql` rewritten with REAL data (profile + 7 projects + talks/publications) — run on provisioning
 - [ ] Deploy to Vercel preview (BLOCKED on owner Vercel/Supabase accounts)
 
 ## MILESTONE 2 — Content Pipeline

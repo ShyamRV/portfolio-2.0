@@ -6,22 +6,21 @@ import { PostHogProvider } from "@/components/analytics/posthog-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
 
 export const metadata: Metadata = {
-  // [NEEDS INPUT] real name/handle/domain — placeholder until provided (Part 2).
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Portfolio — [Your Name]",
-    template: "%s · [Your Name]",
+    default: "Shyamji Pandey — Agentic AI Engineer",
+    template: "%s · Shyamji Pandey",
   },
   description:
-    "Personal portfolio — placeholder copy pending real resume data (Part 2).",
+    "Shyamji Pandey — Agentic AI Engineer & Developer Advocate @ Fetch.ai, CV & ML researcher. Autonomous multi-agent systems, computer vision, and LLM orchestration.",
   openGraph: {
     type: "website",
     url: siteUrl,
-    title: "Portfolio — [Your Name]",
-    images: [{ url: "/api/og" }],
+    title: "Shyamji Pandey — Agentic AI Engineer",
+    images: [{ url: "/api/og?title=Shyamji+Pandey" }],
   },
   twitter: { card: "summary_large_image" },
 };

@@ -48,13 +48,68 @@ export default async function ResumePage() {
         </section>
       ) : null}
 
-      {resume?.skills?.length ? (
+      {resume?.publications?.length ? (
         <>
           <Separator />
           <section>
             <h2 className="mb-4 text-2xl font-semibold tracking-tight">
-              Skills
+              Publications (in progress)
             </h2>
+            <ul className="space-y-3">
+              {resume.publications.map((p) => (
+                <li key={p.title}>
+                  <p className="font-medium">{p.title}</p>
+                  <p className="text-sm text-muted-foreground">{p.note}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </>
+      ) : null}
+
+      {resume?.talks?.length ? (
+        <>
+          <Separator />
+          <section>
+            <h2 className="mb-4 text-2xl font-semibold tracking-tight">Talks</h2>
+            <ul className="space-y-3">
+              {resume.talks.map((t) => (
+                <li key={t.title}>
+                  <p className="font-medium">{t.title}</p>
+                  <p className="text-sm text-muted-foreground">{t.venue}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </>
+      ) : null}
+
+      {resume?.skillGroups?.length ? (
+        <>
+          <Separator />
+          <section>
+            <h2 className="mb-4 text-2xl font-semibold tracking-tight">Skills</h2>
+            <div className="space-y-3">
+              {resume.skillGroups.map((g) => (
+                <div key={g.label} className="flex flex-col gap-1.5 sm:flex-row">
+                  <p className="w-40 shrink-0 text-sm font-medium text-muted-foreground">
+                    {g.label}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {g.skills.map((s) => (
+                      <Badge key={s}>{s}</Badge>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </>
+      ) : resume?.skills?.length ? (
+        <>
+          <Separator />
+          <section>
+            <h2 className="mb-4 text-2xl font-semibold tracking-tight">Skills</h2>
             <div className="flex flex-wrap gap-1.5">
               {resume.skills.map((s) => (
                 <Badge key={s}>{s}</Badge>

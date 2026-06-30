@@ -8,7 +8,7 @@ export const runtime = "edge";
  */
 export function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const title = searchParams.get("title")?.slice(0, 120) ?? "[Your Name]";
+  const title = searchParams.get("title")?.slice(0, 120) ?? "Shyamji Pandey";
 
   return new ImageResponse(
     (
