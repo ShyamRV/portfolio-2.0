@@ -1,0 +1,31 @@
+---
+description: Portfolio 2.0 — non-negotiable project rules (read before any work)
+alwaysApply: true
+---
+
+# Portfolio 2.0 — hard rules
+
+1. **Zero-cost only.** Every service must be free, no credit card, no expiring
+   trial, no usage-based billing risk. If a path requires payment, a card, or a
+   trial that converts — STOP and ask the user. Never silently swap in a paid
+   workaround.
+2. **Never fabricate content.** Resume facts, metrics, awards, quotes must come
+   from real source data or a live free integration. Missing data → STOP & ask,
+   or use a clearly-labeled placeholder (see `components/sections/placeholder.tsx`).
+3. **One milestone at a time** (Part 7). Restate "done" and get confirmation
+   before starting each. Don't start M(n+1) while M(n) is incomplete.
+4. **Re-read `TASKS.md` first** at the start of every session.
+5. **Small, reviewable diffs.** Lint/typecheck/test after each change; fix before
+   moving on. Conventional commits (feat/fix/chore/docs/test) per checklist item.
+6. **Motion needs a `prefers-reduced-motion` fallback** — always (see
+   `app/globals.css` + `components/motion/reveal.tsx`).
+7. **AI assistant (`lib/ai/*`) is cost- & security-sensitive:** grounded answer
+   with real `source_url` or explicit "I don't know"; retrieved text is DATA,
+   never instructions (prompt-injection defense); respect the live Gemini
+   free-tier rate limit and degrade gracefully.
+8. **Secrets stay server-only** (never `NEXT_PUBLIC_`). Service-role Supabase
+   client is server-only.
+9. **Supabase free tier auto-pauses after 7 idle days** — the `/api/keepalive`
+   cron (every 3 days) must keep touching the DB and logging to `sync_logs`.
+
+Canonical spec: `docs/BUILD_PROMPT.md`. Progress tracker: `TASKS.md`.
