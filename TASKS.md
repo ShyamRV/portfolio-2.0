@@ -41,13 +41,14 @@
 ## MILESTONE 1 — Foundation & Static MVP
 **Done when:** site is live with real content, fully static, no third-party sync yet.
 
-- [ ] Design tokens finalized in `tailwind.config.ts`
-- [ ] shadcn primitives in `components/ui`
-- [ ] hero / timeline / featured-work sections from `profile`/`projects`
-- [ ] `/work`, `/work/[slug]`, `/resume`, `/contact` real content
-- [ ] reduced-motion-safe animation wrappers (base added: `components/motion/reveal.tsx`)
-- [ ] Seed `profile`/`projects` with REAL resume data (after Part 2 answered)
-- [ ] Deploy to Vercel preview
+- [x] Design tokens finalized in `tailwind.config.ts` (type scale, fonts, aurora keyframes)
+- [x] shadcn primitives in `components/ui` (button, card, badge, separator, theme-toggle)
+- [x] hero / timeline / featured-work sections from `profile`/`projects` (with placeholder fallback)
+- [x] `/work`, `/work/[slug]`, `/resume`, `/contact`, `/status` routes
+- [x] reduced-motion-safe animation wrappers (`reveal.tsx`, `use-reduced-motion.ts`, `aurora-background.tsx`)
+- [x] Seed template written (`supabase/seed.sql`) — placeholder, awaiting REAL resume data (owner)
+- [ ] Seed `profile`/`projects` with REAL resume data (BLOCKED on owner content)
+- [ ] Deploy to Vercel preview (BLOCKED on owner Vercel/Supabase accounts)
 
 ## MILESTONE 2 — Content Pipeline
 **Done when:** a commit/post appears on the site without a manual deploy, and Supabase never paused during testing.
