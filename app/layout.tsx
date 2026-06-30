@@ -1,10 +1,22 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { PostHogProvider } from "@/components/analytics/posthog-provider";
+import { ExperienceProvider } from "@/features/experience/experience-provider";
+import { SmoothScroll } from "@/features/experience/smooth-scroll";
+import { SoundProvider } from "@/features/hud/sound-provider";
+import { CustomCursor } from "@/features/hud/custom-cursor";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
+});
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
 
@@ -30,14 +42,23 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans`}>
+      <body
+        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}
+      >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
-          <PostHogProvider>{children}</PostHogProvider>
+          <ExperienceProvider>
+            <SoundProvider>
+              <PostHogProvider>
+                <SmoothScroll>{children}</SmoothScroll>
+              </PostHogProvider>
+              <CustomCursor />
+            </SoundProvider>
+          </ExperienceProvider>
         </ThemeProvider>
       </body>
     </html>

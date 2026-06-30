@@ -14,34 +14,43 @@
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
-    --accent: 217 91% 60%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 187 92% 53%;
+    --accent-foreground: 0 0% 4%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
-    --ring: 217 91% 60%;
+    --ring: 187 92% 53%;
     --radius: 0.625rem;
+
+    /* ── Embodied Intelligence — lab tokens (theme-independent) ── */
+    --void: 240 33% 3%;
+    --void-2: 240 24% 6%;
+    --hud-line: 187 80% 60%;
+    --synapse-1: 187 92% 53%; /* cyan  #22D3EE */
+    --synapse-2: 263 70% 58%; /* violet #7C3AED */
+    --hologram: 180 90% 62%;
+    --signal: 152 80% 55%; /* success/energy green */
   }
 
   .dark {
-    --background: 0 0% 3.9%;
+    --background: 240 33% 3%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 5.5%;
+    --card: 240 24% 6%;
     --card-foreground: 0 0% 98%;
     --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
+    --primary-foreground: 240 33% 4%;
+    --secondary: 240 14% 12%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 217 91% 60%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --muted: 240 14% 12%;
+    --muted-foreground: 220 12% 64%;
+    --accent: 187 92% 53%;
+    --accent-foreground: 240 33% 4%;
+    --destructive: 0 62.8% 45%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 217 91% 60%;
+    --border: 220 18% 16%;
+    --input: 220 18% 16%;
+    --ring: 187 92% 53%;
   }
 }
 
@@ -53,16 +62,99 @@
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-}
-
-@layer components {
-  /* Glassmorphism — used selectively (Part 9), not everywhere. */
-  .glass {
-    @apply border border-border/60 bg-card/60 backdrop-blur-md;
+  ::selection {
+    background: hsl(var(--synapse-1) / 0.3);
+    color: hsl(var(--foreground));
   }
 }
 
-/* Required: motion fallback (Part 1, rule 10) */
+@layer components {
+  /* Glassmorphism — used selectively. */
+  .glass {
+    @apply border border-border/60 bg-card/60 backdrop-blur-md;
+  }
+
+  /* Frosted "panel" used by the HUD + lab UI. */
+  .holo-panel {
+    @apply border border-white/10 bg-white/[0.03] backdrop-blur-xl;
+    box-shadow:
+      inset 0 1px 0 0 hsl(var(--synapse-1) / 0.08),
+      0 8px 40px -12px hsl(var(--synapse-1) / 0.18);
+  }
+
+  /* Synapse gradient text. */
+  .holo-text {
+    background-image: linear-gradient(
+      100deg,
+      hsl(var(--synapse-1)),
+      hsl(var(--hologram)) 40%,
+      hsl(var(--synapse-2))
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Mono "system" label. */
+  .sys-label {
+    @apply font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground;
+  }
+}
+
+@layer utilities {
+  /* Subtle blueprint grid for lab backgrounds. */
+  .lab-grid {
+    background-image:
+      linear-gradient(hsl(var(--hud-line) / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--hud-line) / 0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* Radial vignette to focus attention center-stage. */
+  .lab-vignette {
+    background: radial-gradient(
+      ellipse 80% 70% at 50% 40%,
+      transparent 0%,
+      hsl(var(--void) / 0.7) 70%,
+      hsl(var(--void)) 100%
+    );
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 0 1px hsl(var(--synapse-1) / 0.3),
+      0 0 24px -2px hsl(var(--synapse-1) / 0.45);
+  }
+
+  /* Film grain overlay (very low opacity) for cinematic texture. */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@keyframes hud-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.4; }
+  94% { opacity: 1; }
+}
+
+@keyframes scan {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100%); }
+}
+
+/* Hide the native cursor only when the custom reticle is active. */
+html.custom-cursor,
+html.custom-cursor * {
+  cursor: none !important;
+}
+
+/* Required: motion fallback. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -71,5 +163,9 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: auto !important;
   }
 }

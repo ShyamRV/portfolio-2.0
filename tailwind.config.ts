@@ -5,6 +5,7 @@ const config: Config = {
   content: [
     "./app/**/*.{ts,tsx,mdx}",
     "./components/**/*.{ts,tsx}",
+    "./features/**/*.{ts,tsx}",
     "./content/**/*.{md,mdx}",
   ],
   theme: {
@@ -16,7 +17,20 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
-        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+        display: [
+          "var(--font-display)",
+          "var(--font-sans)",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
+        ],
+        mono: [
+          "var(--font-mono)",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "monospace",
+        ],
       },
       fontSize: {
         // Fluid-ish type scale (1.25 ratio) — design token source of truth.
@@ -30,6 +44,8 @@ const config: Config = {
         "4xl": ["2.25rem", { lineHeight: "2.5rem", letterSpacing: "-0.02em" }],
         "5xl": ["3rem", { lineHeight: "1.1", letterSpacing: "-0.03em" }],
         "6xl": ["3.75rem", { lineHeight: "1.05", letterSpacing: "-0.03em" }],
+        "7xl": ["clamp(3.5rem, 9vw, 6rem)", { lineHeight: "0.95", letterSpacing: "-0.04em" }],
+        "8xl": ["clamp(4.5rem, 13vw, 9rem)", { lineHeight: "0.92", letterSpacing: "-0.045em" }],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -61,6 +77,13 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        void: "hsl(var(--void))",
+        synapse: {
+          1: "hsl(var(--synapse-1))",
+          2: "hsl(var(--synapse-2))",
+        },
+        hologram: "hsl(var(--hologram))",
+        signal: "hsl(var(--signal))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -76,10 +99,25 @@ const config: Config = {
           "0%, 100%": { transform: "translate3d(0,0,0) scale(1)" },
           "50%": { transform: "translate3d(2%, -3%, 0) scale(1.08)" },
         },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        "pulse-glow": {
+          "0%, 100%": { opacity: "0.6", filter: "brightness(1)" },
+          "50%": { opacity: "1", filter: "brightness(1.4)" },
+        },
+        "border-flow": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
       },
       animation: {
         "fade-in": "fade-in 0.5s ease-out both",
         aurora: "aurora 18s ease-in-out infinite",
+        float: "float 6s ease-in-out infinite",
+        "pulse-glow": "pulse-glow 3s ease-in-out infinite",
+        "border-flow": "border-flow 8s ease infinite",
       },
     },
   },
