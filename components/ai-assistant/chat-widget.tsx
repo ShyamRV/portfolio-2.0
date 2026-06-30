@@ -92,7 +92,7 @@ export function ChatWidget() {
           role="dialog"
           aria-label="Portfolio assistant"
           className={cn(
-            "fixed bottom-20 right-5 z-50 flex h-[28rem] w-[min(22rem,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-xl border border-border bg-background shadow-2xl",
+            "glass fixed bottom-20 right-5 z-50 flex h-[28rem] w-[min(22rem,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-xl shadow-2xl",
             "motion-safe:animate-fade-in",
           )}
         >

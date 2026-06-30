@@ -55,6 +55,13 @@
   }
 }
 
+@layer components {
+  /* Glassmorphism — used selectively (Part 9), not everywhere. */
+  .glass {
+    @apply border border-border/60 bg-card/60 backdrop-blur-md;
+  }
+}
+
 /* Required: motion fallback (Part 1, rule 10) */
 @media (prefers-reduced-motion: reduce) {
   *,

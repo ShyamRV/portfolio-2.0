@@ -80,12 +80,14 @@
 ## MILESTONE 4 — Polish & Launch
 **Done when:** Lighthouse + a11y targets met (verified), and a full review confirms zero paid/trial services anywhere.
 
-- [ ] Motion pass (selective, Part 9)
-- [ ] a11y audit: axe-core in CI + manual screen reader pass
-- [ ] Performance budget / Lighthouse CI gate
-- [ ] Cross-browser/device QA
-- [ ] PostHog analytics + cookie consent / IP anonymization
-- [ ] SEO: structured data, sitemap, per-route OG images
+- [x] Motion pass (selective, Part 9): aurora, glass, Reveal — all reduced-motion safe
+- [x] a11y: axe-core test in CI (`a11y.test.tsx`); manual screen-reader pass documented in docs/QA.md (PENDING owner deploy)
+- [x] Lighthouse CI gate wired (`lighthouserc.json` + workflow, mobile, all ≥95) — scores produced by CI run
+- [x] Cross-browser/device QA matrix documented in docs/QA.md (execution PENDING owner deploy)
+- [x] PostHog analytics: consent-gated opt-in + `$geoip_disable` + identified_only
+- [x] SEO: JSON-LD (Person, SoftwareSourceCode), `sitemap.ts`, `robots.ts`, per-route OG via /api/og
+- [x] Final zero-cost review — docs/ZERO_COST_REVIEW.md (clean: no paid/trial service anywhere)
+- [ ] Produce real Lighthouse/a11y/cross-browser numbers + verify PostHog firing (BLOCKED on owner deploy)
 
 ---
 

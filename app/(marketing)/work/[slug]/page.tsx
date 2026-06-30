@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { PlaceholderNotice } from "@/components/sections/placeholder";
+import { JsonLd, softwareApplicationSchema } from "@/components/seo/json-ld";
 import { getProjectBySlug, getAllProjectSlugs } from "@/lib/supabase/queries";
 
 export async function generateStaticParams() {
@@ -19,9 +20,15 @@ export async function generateMetadata({
   const { slug } = await params;
   const result = await getProjectBySlug(slug);
   if (!result) return { title: "Project not found" };
+  const title = result.data.title;
   return {
-    title: result.data.title,
+    title,
     description: result.data.summary ?? undefined,
+    openGraph: {
+      title,
+      description: result.data.summary ?? undefined,
+      images: [{ url: `/api/og?title=${encodeURIComponent(title)}` }],
+    },
   };
 }
 
@@ -58,6 +65,16 @@ export default async function ProjectDetailPage({
 
   return (
     <article className="container max-w-3xl space-y-10 py-20">
+      {!isPlaceholder ? (
+        <JsonLd
+          data={softwareApplicationSchema({
+            name: project.title,
+            description: project.summary,
+            url: project.demo_url,
+            codeRepository: project.repo_url,
+          })}
+        />
+      ) : null}
       <header className="space-y-4">
         <h1 className="text-4xl font-semibold tracking-tight">
           {project.title}
