@@ -17,29 +17,37 @@ import {
   ContactSection,
 } from "@/features/scenes/content-sections";
 import { ProjectsSection } from "@/features/scenes/projects-section";
+import { VideosSection } from "@/features/scenes/videos-section";
 import { ConsoleSection } from "@/features/scenes/console-section";
 import { useActiveSection } from "@/features/scenes/use-active-section";
+import type { YouTubeVideo } from "@/lib/content/youtube-feed";
 
 interface ExperienceProps {
   name: string;
   identities: string[];
+  videos?: YouTubeVideo[];
 }
 
-const SECTIONS: HudSection[] = [
-  { id: "arrival", label: "ARRIVAL", index: "00" },
-  { id: "essence", label: "ESSENCE", index: "01" },
-  { id: "journey", label: "JOURNEY", index: "02" },
-  { id: "research", label: "RESEARCH", index: "03" },
-  { id: "systems", label: "SYSTEMS", index: "04" },
-  { id: "capabilities", label: "CAPABILITIES", index: "05" },
-  { id: "signal", label: "SIGNAL", index: "06" },
-  { id: "console", label: "CONSOLE", index: "07" },
-  { id: "contact", label: "CONTACT", index: "08" },
-];
+export function Experience({ name, identities, videos = [] }: ExperienceProps) {
+  const hasVideos = videos.length > 0;
 
-const SECTION_IDS = SECTIONS.map((s) => s.id);
+  const SECTIONS: HudSection[] = [
+    { id: "arrival", label: "ARRIVAL", index: "00" },
+    { id: "essence", label: "ESSENCE", index: "01" },
+    { id: "journey", label: "JOURNEY", index: "02" },
+    { id: "research", label: "RESEARCH", index: "03" },
+    { id: "systems", label: "SYSTEMS", index: "04" },
+    { id: "capabilities", label: "CAPABILITIES", index: "05" },
+    { id: "signal", label: "SIGNAL", index: "06" },
+    ...(hasVideos
+      ? [{ id: "broadcast", label: "BROADCAST", index: "07" } as HudSection]
+      : []),
+    { id: "console", label: "CONSOLE", index: "08" },
+    { id: "contact", label: "CONTACT", index: "09" },
+  ];
 
-export function Experience({ name, identities }: ExperienceProps) {
+  const SECTION_IDS = SECTIONS.map((s) => s.id);
+
   const { caps, fallback, skipped } = useExperience();
   const [booted, setBooted] = useState(false);
   const active = useActiveSection(SECTION_IDS);
@@ -90,6 +98,7 @@ export function Experience({ name, identities }: ExperienceProps) {
         <ProjectsSection />
         <SkillsSection />
         <SpeakingSection />
+        <VideosSection videos={videos} />
         <ConsoleSection />
         <ContactSection />
       </main>

@@ -183,7 +183,7 @@ export function ContactSection() {
   return (
     <Section
       id="contact"
-      index="08"
+      index="09"
       eyebrow="Contact Portal"
       title={
         <>

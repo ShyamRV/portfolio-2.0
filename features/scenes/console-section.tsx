@@ -82,7 +82,7 @@ export function ConsoleSection() {
   return (
     <Section
       id="console"
-      index="07"
+      index="08"
       eyebrow="System Console"
       title={
         <>
